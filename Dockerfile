@@ -6,4 +6,4 @@ COPY package.json .
 #copy source code to workdir
 COPY . .
 
-EXPOSE 8080
+EXPOSE 8082
