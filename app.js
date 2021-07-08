@@ -3,7 +3,8 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const cors = require('cors')
+const cors = require('cors');
+const dotEnv = require('dotenv');
 
 const feedRoutes = require('./src/routes/web');
 
@@ -34,7 +35,7 @@ app.use((error, req, res, next) => {
 
 mongoose
     .connect(
-        'mongodb://mongodb:27017',
+        'mongodb://' + process.env.MONGODB_HOST + ':' + process.env.MONGODB_PORT,
         { useNewUrlParser: true }
     )
     .then(result => {
