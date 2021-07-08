@@ -4,9 +4,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const dotEnv = require('dotenv');
+const dotEnv = require('dotenv').config();
 
-const feedRoutes = require('./src/routes/web');
+const paymentRoutes = require('./src/routes/web');
 
 const app = express();
 // app.use(bodyParser.urlencoded()); // x-www-form-urlencoded <form>
@@ -23,20 +23,20 @@ app.use((req, res, next) => {
     next();
 });
 
-let routes = feedRoutes.init();
-app.use(routes);
-
+app.use(paymentRoutes.init());
 app.use((error, req, res, next) => {
     console.log(error);
     const status = error.statusCode || 500;
     const message = error.message;
-    res.status(status).json({ message: message });
+    res.status(status).json({message: message});
 });
 
 mongoose
     .connect(
         'mongodb://' + process.env.MONGODB_HOST + ':' + process.env.MONGODB_PORT,
-        { useNewUrlParser: true }
+        {
+            useNewUrlParser: true,
+        }
     )
     .then(result => {
         app.listen(8082);
